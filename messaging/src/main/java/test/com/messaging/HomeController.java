@@ -24,7 +24,7 @@ public class HomeController {
 		
 		
 		
-		return "message";
+		return "login";
 	}
 	
 }
