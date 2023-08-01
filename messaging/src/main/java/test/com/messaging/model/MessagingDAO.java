@@ -7,5 +7,8 @@ public interface MessagingDAO {
 	public List<MessagingVO> sender_selectAll(MessagingVO vo);
 	public List<MessagingVO> receiver_selectAll(MessagingVO vo);
 	
+	public int inset(MessagingVO vo);
+	public int delete(MessagingVO vo);
+	
 
 }

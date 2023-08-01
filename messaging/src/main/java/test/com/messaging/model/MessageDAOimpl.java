@@ -35,4 +35,16 @@ public class MessageDAOimpl implements MessagingDAO {
 		return null;
 	}
 
+	@Override
+	public int inset(MessagingVO vo) {
+		log.info("inset...{}", vo);
+		return sqlsession.insert("M_INSERT", vo);
+	}
+
+	@Override
+	public int delete(MessagingVO vo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

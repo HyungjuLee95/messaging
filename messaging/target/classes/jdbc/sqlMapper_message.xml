@@ -9,7 +9,7 @@
 
 	<select id="M_SELECT_ALL"
 			resultType="test.com.messaging.model.MessagingVO">
-		select * from board
+		select * from messaging
 		
 	</select>
 	
@@ -19,10 +19,10 @@
 <!-- </select> -->
 
 
-<!-- 	<insert id="B_INSERT"> -->
-<!-- 		insert into board(b_num,b_title,b_content,b_user_id) -->
-<!-- 		values(seq_board.nextval,#{b_title},#{b_content},'tester') -->
-<!-- 	</insert> -->
+	<insert id="M_INSERT">
+		insert into messaging(mnum,sender,receiver,content)
+		values(seq_messaging.nextval,#{sender},#{receiver},#{content})
+	</insert>
 
 <!-- 	<update id="b_UPDATE"> -->
 <!-- 		update board set title=#{title},writer=#{writer},content=#{content} -->

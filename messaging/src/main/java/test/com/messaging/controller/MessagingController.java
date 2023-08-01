@@ -24,6 +24,15 @@ public class MessagingController {
 	@RequestMapping(value="/json_messaging_selectAll.do",method = RequestMethod.GET)
 	public List<MessagingVO> json_messaging_selectAll(MessagingVO vo){
 		List<MessagingVO> vos = service.selectAll(vo);
+		log.info("vos....{}", vos);
 		return vos;
+	}
+	
+	@RequestMapping(value = "/message_InsertOK.do", method = RequestMethod.GET)
+	public String message_InsertOK(MessagingVO vo) {
+		System.out.println("insert vo : "+vo.toString());
+	int result = service.inset(vo);
+	return "redirect:home.do"; 
+		
 	}
 }

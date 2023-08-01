@@ -31,5 +31,15 @@ public class MessagingService {
 		log.info("...{}", vo);
 		return dao.receiver_selectAll(vo);
 	}
+	
+	public int inset(MessagingVO vo) {
+		log.info("inset...{}", vo);
+		return dao.inset(vo);
+	}
+
+	public int delete(MessagingVO vo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 }

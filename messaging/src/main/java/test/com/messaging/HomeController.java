@@ -15,18 +15,16 @@ import test.com.messaging.model.MessagingVO;
 @Controller
 public class HomeController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = {"/","/home.do"}, method = RequestMethod.GET)
 	public String home(Model model, MessagingVO vo) {
 		
 		
-		model.addAttribute("serverTime" );
 		
-		return "home";
+		return "message";
 	}
 	
 }
