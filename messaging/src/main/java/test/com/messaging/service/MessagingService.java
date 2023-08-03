@@ -38,8 +38,8 @@ public class MessagingService {
 	}
 
 	public int delete(MessagingVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		log.info("delete...{}", vo);
+		return dao.delete(vo);
 	}
 
 }
