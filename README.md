@@ -108,6 +108,80 @@ CREATE SEQUENCE SEQ_MESSAGING INCREMENT BY 1 MAXVALUE 99999999999999999999999999
 
 ```
       
+
+### 클래스 구성 
+![image](https://github.com/HyungjuLee95/messaging/assets/111270174/84e45df9-1400-48cc-8e5d-d607291b563e)
+----
+
+
+### Json으로 전체 목록을 받아오며, 해당 정보를 ajax를 통하여 원하는 정보만이 나오게 표시.
+---
+###Controller
+```
+@ResponseBody
+	@RequestMapping(value = "/json_messaging_selectAll.do", method = RequestMethod.GET)
+	public List<MessagingVO> json_messaging_selectAll(MessagingVO vo, HttpSession session) {
+		List<MessagingVO> vos = service.selectAll(vo);
+		log.info("vos....{}", vos);
+		return vos;
+	}
+```
+###javaScript
+```
+function LongPolling() {
+    $.ajax({
+        url: "json_messaging_selectAll.do", // json 목록 가져오기
+        method: "GET",
+        data: {},
+        dataType: "json",
+        success: function (response) {
+            console.log("ajax on");
+            console.log("response", response);
+
+            var html = "";
+				html +=`	<tr>
+					<td> mnum</td>
+					<td> sender</td>
+					<td> receiver</td>
+					<td> CONTENT</td>
+					<td> mdate</td>
+					
+				</tr>
+				`
+            for (var i = 0; i < response.length; i++) {
+                var vo = response[i];
+                if ('${user_id}' == vo.receiver) {
+                    console.log("vo[i]...{}", vo);
+
+                    html += '<tr>';
+                    html += '<td>' + vo.mnum + '</td>';
+                    html += '<td>' + vo.sender + '</td>';
+                    html += '<td>' + vo.receiver + '</td>';
+                    html += '<td>' + vo.content + '</td>';
+                    html += '<td>' + vo.mdate + '</td>';
+                    html += '<td>';
+                    html += '<form action="message_deleteOK.do" method="post">';
+                    html += '<input type="hidden" name="mnum" value="' + vo.mnum + '">';
+                    html += '<button type="submit">삭제</button>';
+                    html += '</form>';
+                    html += '</td>';
+                    html += '</tr>';
+                }
+            }
+
+            $(".ajax_area1").empty().append(html);
+
+            setTimeout(LongPolling, 5000);
+        },
+        error: function (xhr, status, error) {
+            console.error(error);
+            setTimeout(LongPolling, 5000);
+        }
+    });
+}
+
+LongPolling();
+```
       
 
 
