@@ -19,45 +19,57 @@ import test.com.messaging.service.MessagingService;
 @Slf4j
 public class MessagingController {
 
-	
 	@Autowired
 	MessagingService service;
-	
+
 	@Autowired
 	HttpSession session;
-	
+
 	@ResponseBody
-	@RequestMapping(value="/json_messaging_selectAll.do",method = RequestMethod.GET)
-	public List<MessagingVO> json_messaging_selectAll(MessagingVO vo, HttpSession session){
+	@RequestMapping(value = "/json_messaging_selectAll.do", method = RequestMethod.GET)
+	public List<MessagingVO> json_messaging_selectAll(MessagingVO vo, HttpSession session) {
 		List<MessagingVO> vos = service.selectAll(vo);
 		log.info("vos....{}", vos);
 		return vos;
 	}
-	
-	
-	
-	@RequestMapping(value="/connectOK.do",method = RequestMethod.GET)
-	public String connectOK(MessagingVO vo){
+
+	@RequestMapping(value = "/main.do", method = RequestMethod.GET)
+	public String main(MessagingVO vo, HttpSession session) {
+
+		return "message";
+	}
+
+	@RequestMapping(value = "/connectOK.do", method = RequestMethod.GET)
+	public String connectOK(MessagingVO vo) {
 		log.info("vo...{}", vo);
-		  String sender = vo.getSender();
-	        session.setAttribute("user_id", sender);
-		
-			return "message";
+		String sender = vo.getSender();
+		session.setAttribute("user_id", sender);
+
+		return "message";
+	}
+
+	@RequestMapping(value = "/message_InsertOK.do", method = RequestMethod.GET)
+	public String message_InsertOK(MessagingVO vo) {
+		log.info("vo", vo);
+		String userid = (String) session.getAttribute("user_id");
+		vo.setSender(userid);
+
+		System.out.println("insert vo : " + vo.toString());
+		int result = service.inset(vo);
+		return "redirect:main.do?user_id=" + userid;
+
 	}
 	
-
 	
-	@RequestMapping(value = "/message_InsertOK.do", method = RequestMethod.GET)
-	public String message_InsertOK(MessagingVO vo ) {
+	@RequestMapping(value = "/message_deleteOK.do", method = RequestMethod.POST)
+	public String message_deleteOK(MessagingVO vo) {
 		log.info("vo", vo);
-		String userid=(String) session.getAttribute("user_id");
-       vo.setSender(userid);
+		String userid = (String) session.getAttribute("user_id");
+		vo.setSender(userid);
 
+		System.out.println("delete vo : " + vo.toString());
+		int result = service.delete(vo);
+		return "redirect:main.do?user_id=" + userid;
 
-
-		System.out.println("insert vo : "+vo.toString());
-	int result = service.inset(vo);
-	return "redirect:home.do"; 
-		
 	}
 }

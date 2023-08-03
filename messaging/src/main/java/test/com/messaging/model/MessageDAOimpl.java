@@ -43,8 +43,8 @@ public class MessageDAOimpl implements MessagingDAO {
 
 	@Override
 	public int delete(MessagingVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		log.info("delete...{}", vo);
+		return sqlsession.delete("M_DELETE",vo);
 	}
 
 }

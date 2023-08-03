@@ -8,15 +8,15 @@
 
 
 	<select id="M_SELECT_ALL"
-			resultType="test.com.messaging.model.MessagingVO">
+		resultType="test.com.messaging.model.MessagingVO">
 		select * from messaging
-		
+
 	</select>
-	
-<!-- 	<select id="B_SELECT_ONE" -->
-<!-- 		resultType="test.com.messaging.model.MessagingVO"> -->
-<!-- 		select * from board where b_num = #{b_num} -->
-<!-- </select> -->
+
+	<!-- <select id="B_SELECT_ONE" -->
+	<!-- resultType="test.com.messaging.model.MessagingVO"> -->
+	<!-- select * from board where b_num = #{b_num} -->
+	<!-- </select> -->
 
 
 	<insert id="M_INSERT">
@@ -24,13 +24,13 @@
 		values(seq_messaging.nextval,#{sender},#{receiver},#{content})
 	</insert>
 
-<!-- 	<update id="b_UPDATE"> -->
-<!-- 		update board set title=#{title},writer=#{writer},content=#{content} -->
-<!-- 		where wnum=#{wnum} -->
-<!-- 	</update> -->
+	<!-- <update id="b_UPDATE"> -->
+	<!-- update board set title=#{title},writer=#{writer},content=#{content} -->
+	<!-- where wnum=#{wnum} -->
+	<!-- </update> -->
 
-<!-- 	<delete id="B_DELETE"> -->
-<!-- 		delete from board where b_num=#{b_num} -->
-<!-- 	</delete> -->
+	<delete id="M_DELETE">
+		delete from messaging where mnum=#{mnum}
+	</delete>
 
 </mapper>

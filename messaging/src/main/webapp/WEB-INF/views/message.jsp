@@ -11,6 +11,63 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
+function LongPolling() {
+    $.ajax({
+        url: "json_messaging_selectAll.do", // json 목록 가져오기
+        method: "GET",
+        data: {},
+        dataType: "json",
+        success: function (response) {
+            console.log("ajax on");
+            console.log("response", response);
+
+            var html = "";
+				html +=`	<tr>
+					<td> mnum</td>
+					<td> sender</td>
+					<td> receiver</td>
+					<td> CONTENT</td>
+					<td> mdate</td>
+					
+				</tr>
+				`
+            for (var i = 0; i < response.length; i++) {
+                var vo = response[i];
+                if ('${user_id}' == vo.receiver) {
+                    console.log("vo[i]...{}", vo);
+
+                    html += '<tr>';
+                    html += '<td>' + vo.mnum + '</td>';
+                    html += '<td>' + vo.sender + '</td>';
+                    html += '<td>' + vo.receiver + '</td>';
+                    html += '<td>' + vo.content + '</td>';
+                    html += '<td>' + vo.mdate + '</td>';
+                    html += '<td>';
+                    html += '<form action="message_deleteOK.do" method="post">';
+                    html += '<input type="hidden" name="mnum" value="' + vo.mnum + '">';
+                    html += '<button type="submit">삭제</button>';
+                    html += '</form>';
+                    html += '</td>';
+                    html += '</tr>';
+                }
+            }
+
+            $(".ajax_area1").empty().append(html);
+
+            setTimeout(LongPolling, 5000);
+        },
+        error: function (xhr, status, error) {
+            console.error(error);
+            setTimeout(LongPolling, 5000);
+        }
+    });
+}
+
+LongPolling();
+</script>
+
+
+<script type="text/javascript">
    $(document).ready(function() {
          $.ajax({
             url: "json_messaging_selectAll.do", // json 목록 가져오기
@@ -37,48 +94,12 @@
                    html += '<td>' + vo.receiver + '</td>';
                    html += '<td>' + vo.content + '</td>';
                    html += '<td>' + vo.mdate + '</td>';
-                   html += '</tr>';
-               }
-               }
-
-               // 기존의 테이블에 추가
-               $(".ajax_area1 table").append(html);
-             },
-             error: function (xhr, status, error) {
-               console.error(error);
-             }
-         });
-   });
-</script>
-
-
-<script type="text/javascript">
-   $(document).ready(function() {
-         $.ajax({
-            url: "json_messaging_selectAll.do", // json 목록 가져오기
-            method: "GET",
-            data: {  },
-            dataType: "json",
-            success: function(response) {
-               console.log("ajax on");
-               console.log("response", response);
-               //불러온 항목 처리 및 가공, 출력(html에 추가)
-            
-               var html = "";
-
-               for (var i = 0; i < response.length; i++) {
-                   var vo = response[i]
-                   if('${user_id}'==vo.receiver){
-                   console.log("vo[i]...{}", vo);
-              
-
-                   // 테이블에 행 추가
-                   html += '<tr>';
-                   html += '<td>' + vo.mnum + '</td>';
-                   html += '<td>' + vo.sender + '</td>';
-                   html += '<td>' + vo.receiver + '</td>';
-                   html += '<td>' + vo.content + '</td>';
-                   html += '<td>' + vo.mdate + '</td>';
+                   html += '<td>';
+                   html += '<form action="message_deleteOK.do" method="post">';
+                   html += '<input type="hidden" name="mnum" value="' + vo.mnum + '">';
+                   html += '<button type="submit">삭제</button>';
+                   html += '</form>';
+                   html += '</td>';
                    html += '</tr>';
                }
                }
@@ -103,24 +124,16 @@
 			<input type="text" name="receiver" placeholder="수신자를 알려주세요.">
 			<h3>쪽지</h3>
 			<input type="text" name="content" placeholder="쪽지를 입력해주세요.">
-			<a type = "submit" href="message_InsertOK.do" > 전송 </a>
+			<button type = "submit">전송</button> 
 
 	</form>
 	
 	
 	<h3>수신함</h3>
-	<div class="ajax_area1" >
-	<table border=1>
-		<tr>
-			<td> mnum</td>
-			<td> sender</td>
-			<td> receiver</td>
-			<td> CONTENT</td>
-			<td> mdate</td>
-			
-		</tr>
+
+	<table border=1 class="ajax_area1">
+	
 	</table>
-	</div>
 	
 	<h3>발신함</h3>
 	<div class="ajax_area2" >
