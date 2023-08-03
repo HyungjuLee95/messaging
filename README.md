@@ -182,6 +182,9 @@ function LongPolling() {
 
 LongPolling();
 ```
-      
+
+---
+
+### 고민
 
 
